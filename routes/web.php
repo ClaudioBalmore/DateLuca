@@ -23,6 +23,7 @@ Route::get('/@{slug}', function (string $slug) {
 
     return Inertia::render('Dashboard', [
         'user' => $user,
+        'links' => $user->links,
     ]);
 })->name('dashboard.slug');
 
@@ -30,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('links', \App\Http\Controllers\LinksController::class);
+
+    Route::resource('donations', \App\Http\Controllers\DonationsController::class);
 });
 
 require __DIR__.'/auth.php';

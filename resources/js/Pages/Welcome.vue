@@ -188,7 +188,7 @@ defineProps({
                         <span class="ml-2 text-lg font-semibold">DateLuca</span>
                     </div>
                     <div class="text-center md:text-right">
-                        <p class="text-gray-400">Hecho con ❤️ en Chile para chilenos.</p>
+                        <p class="text-gray-400">Hecho con ❤️ en Chile.</p>
                         <p class="text-sm text-gray-500 mt-1">Resistente a terremotos de magnitud 8.8</p>
                     </div>
                 </div>

@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Donation extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'donor_name',
+        'message',
+        'donation_date',
+        'amount',
+    ];
+
+    protected $casts = [
+        'donation_date' => 'date',
+        'amount' => 'decimal:2',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}
