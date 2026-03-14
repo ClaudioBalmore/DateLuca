@@ -18,6 +18,7 @@ const user = usePage().props.auth.user;
 
 const form = useForm({
     name: user.name,
+    slug: user.slug ?? '',
     email: user.email,
 });
 </script>
@@ -26,11 +27,11 @@ const form = useForm({
     <section>
         <header>
             <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
+                Información del perfil
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
+                Actualiza la información de tu cuenta y tu dirección de correo.
             </p>
         </header>
 
@@ -39,7 +40,7 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Nombre" />
 
                 <TextInput
                     id="name"
@@ -54,8 +55,27 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
+            <div class="mt-4">
+                <InputLabel for="slug" value="Nickname" />
+
+                <TextInput
+                    id="slug"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.slug"
+                    required
+                    autocomplete="nickname"
+                />
+
+                <p class="mt-1 text-xs text-gray-500">
+                    Tu perfil estará disponible en: <span class="font-semibold">http://localhost/@{{ form.slug || 'tu-nickname' }}</span>
+                </p>
+
+                <InputError class="mt-2" :message="form.errors.slug" />
+            </div>
+
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Correo electrónico" />
 
                 <TextInput
                     id="email"
@@ -71,14 +91,14 @@ const form = useForm({
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 text-sm text-gray-800">
-                    Your email address is unverified.
+                    Tu dirección de correo no está verificada.
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
                         class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
-                        Click here to re-send the verification email.
+                        Haz clic aquí para reenviar el correo de verificación.
                     </Link>
                 </p>
 
@@ -86,12 +106,12 @@ const form = useForm({
                     v-show="status === 'verification-link-sent'"
                     class="mt-2 text-sm font-medium text-green-600"
                 >
-                    A new verification link has been sent to your email address.
+                    Se ha enviado un nuevo enlace de verificación a tu correo.
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">Guardar</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -103,7 +123,7 @@ const form = useForm({
                         v-if="form.recentlySuccessful"
                         class="text-sm text-gray-600"
                     >
-                        Saved.
+                        Guardado.
                     </p>
                 </Transition>
             </div>

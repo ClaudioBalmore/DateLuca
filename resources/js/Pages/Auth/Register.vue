@@ -8,6 +8,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
     name: '',
+    slug: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -22,11 +23,11 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Registrarse" />
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Nombre" />
 
                 <TextInput
                     id="name"
@@ -42,7 +43,27 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="slug" value="Nickname" />
+
+                <TextInput
+                    id="slug"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.slug"
+                    required
+                    autocomplete="nickname"
+                    placeholder="tu-nombre-de-perfil"
+                />
+
+                <p class="mt-1 text-xs text-gray-500">
+                    Este nickname se usará en tu URL de perfil: <span class="font-semibold">dateluca.cl/@{{ form.slug || 'tu-nickname' }}</span>
+                </p>
+
+                <InputError class="mt-2" :message="form.errors.slug" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="email" value="Correo electrónico" />
 
                 <TextInput
                     id="email"
@@ -57,7 +78,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Contraseña" />
 
                 <TextInput
                     id="password"
@@ -74,9 +95,8 @@ const submit = () => {
             <div class="mt-4">
                 <InputLabel
                     for="password_confirmation"
-                    value="Confirm Password"
+                    value="Confirmar contraseña"
                 />
-
                 <TextInput
                     id="password_confirmation"
                     type="password"
@@ -97,15 +117,16 @@ const submit = () => {
                     :href="route('login')"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                    Already registered?
+                    ¿Ya estás registrado?
                 </Link>
 
                 <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
+                    type="submit"
                 >
-                    Register
+                    Registrarse
                 </PrimaryButton>
             </div>
         </form>

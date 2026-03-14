@@ -14,7 +14,7 @@ const showingNavigationDropdown = ref(false);
     <div>
         <div class="min-h-screen bg-gray-100">
             <nav
-                class="border-b border-gray-100 bg-white"
+                class="border-b border-green-200 bg-white"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -22,9 +22,9 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('dashboard.slug', { slug: $page.props.auth.user.slug })">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="block h-9 w-auto fill-current text-primary-700"
                                     />
                                 </Link>
                             </div>
@@ -34,10 +34,10 @@ const showingNavigationDropdown = ref(false);
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :href="route('dashboard.slug', { slug: $page.props.auth.user.slug })"
+                                    :active="route().current('dashboard.slug')"
                                 >
-                                    Dashboard
+                                    Panel
                                 </NavLink>
                             </div>
                         </div>
@@ -50,7 +50,7 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-primary-700 transition duration-150 ease-in-out hover:text-primary-900 focus:outline-none"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -74,14 +74,14 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            Profile
+                                            Perfil
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            Cerrar sesión
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -95,7 +95,7 @@ const showingNavigationDropdown = ref(false);
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                class="inline-flex items-center justify-center rounded-md p-2 text-primary-500 transition duration-150 ease-in-out hover:bg-primary-100 hover:text-primary-700 focus:bg-primary-100 focus:text-primary-700 focus:outline-none"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -141,10 +141,10 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
+                            :href="route('dashboard.slug', { slug: $page.props.auth.user.slug })"}
+                            :active="route().current('dashboard.slug')"
                         >
-                            Dashboard
+                            Panel
                         </ResponsiveNavLink>
                     </div>
 
@@ -165,14 +165,14 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                Cerrar sesión
                             </ResponsiveNavLink>
                         </div>
                     </div>
