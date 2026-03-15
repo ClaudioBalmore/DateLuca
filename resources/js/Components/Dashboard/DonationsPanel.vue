@@ -50,14 +50,14 @@ const formatAmount = (value) => {
             Lucas recibidas
         </h2>
         <p class="mt-1 text-sm text-gray-600">
-            Ayudame a llenar el chanchito 🐷💰
+            Ayúdame a llenar el chanchito 🐷💰
         </p>
 
         <div
             v-if="sortedDonations.length === 0"
             class="mt-6 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-6 text-center text-sm text-gray-500"
         >
-            Aun no hay donaciones registradas.
+            Aún no hay donaciones registradas.
         </div>
 
         <div v-else class="mt-6 space-y-3">

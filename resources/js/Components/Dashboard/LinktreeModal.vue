@@ -120,7 +120,7 @@ const emit = defineEmits([
                 v-if="links.length === 0"
                 class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-sm text-gray-500"
             >
-                <span v-if="isOwner">Aun no tienes links publicados. Agrega el primero en el formulario de arriba.</span>
+                <span v-if="isOwner">Aún no tienes links publicados. Agrega el primero en el formulario de arriba.</span>
                 <span v-else>Este usuario aun no tiene links publicados.</span>
             </div>
 
