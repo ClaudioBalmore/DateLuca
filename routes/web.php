@@ -24,6 +24,9 @@ Route::get('/@{slug}', function (string $slug) {
     return Inertia::render('Dashboard', [
         'user' => $user,
         'links' => $user->links,
+        'donations' => $user->donations,
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
     ]);
 })->name('dashboard.slug');
 

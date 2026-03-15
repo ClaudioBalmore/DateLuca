@@ -46,8 +46,12 @@ const submit = () => {
                                 <input
                                     id="url"
                                     v-model="form.url"
-                                    type="url"
+                                    type="text"
+                                    inputmode="url"
+                                    autocapitalize="none"
+                                    spellcheck="false"
                                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                                    placeholder="enlace.com o https://enlace.com"
                                     required
                                 />
                                 <div v-if="form.errors.url" class="text-red-600 text-sm mt-1">{{ form.errors.url }}</div>

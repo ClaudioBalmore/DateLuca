@@ -1,6 +1,11 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { ref } from 'vue';
+
+const mobileMenuOpen = ref(false);
+const page = usePage();
+const authenticatedUser = page.props.auth?.user ?? null;
 
 defineProps({
     canLogin: {
@@ -17,7 +22,7 @@ defineProps({
 
     <div class="min-h-screen bg-gradient-to-br from-green-50 to-white">
         <!-- Header -->
-        <header class="bg-white shadow-sm border-b border-green-100">
+        <header class="sticky top-0 z-50 bg-white shadow-sm border-b border-green-100 md:static">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center">
@@ -26,15 +31,93 @@ defineProps({
                             <span class="ml-2 text-xl font-bold text-gray-900">DateLuca</span>
                         </Link>
                     </div>
-                    <nav class="flex items-center space-x-4 gap-2">
-                        <Link v-if="canLogin && !$page.props.auth.user" :href="route('login')" class="text-gray-600 hover:text-primary-600 transition">
+                    <nav class="hidden items-center space-x-4 gap-2 md:flex">
+                        <Link v-if="canLogin && !authenticatedUser" :href="route('login')" class="text-gray-600 hover:text-primary-600 transition">
                             Iniciar sesión
                         </Link>
-                        <Link v-if="canRegister && !$page.props.auth.user" :href="route('register')" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition">
+                        <Link v-if="canRegister && !authenticatedUser" :href="route('register')" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition">
                             Registrarse
                         </Link>
-                        <Link v-if="$page.props.auth.user" :href="route('dashboard.slug', { slug: $page.props.auth.user.slug })" class="text-gray-600 hover:text-primary-600 transition">
+                        <details v-if="authenticatedUser" class="relative">
+                            <summary class="list-none cursor-pointer text-gray-600 hover:text-primary-600 transition select-none">
+                                <span class="inline-flex items-center gap-1">
+                                    {{ authenticatedUser.name }}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                            </summary>
+                            <div class="absolute right-0 mt-2 w-48 rounded-lg border border-green-100 bg-white py-2 shadow-lg z-10">
+                                <Link :href="route('dashboard.slug', { slug: authenticatedUser.slug })" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary-700">
+                                    Mi Panel
+                                </Link>
+                                <Link :href="route('profile.edit')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary-700">
+                                    Editar perfil
+                                </Link>
+                                <Link :href="route('logout')" method="post" as="button" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-green-50 hover:text-primary-700">
+                                    Cerrar sesión
+                                </Link>
+                            </div>
+                        </details>
+                    </nav>
+                    <button
+                        type="button"
+                        class="inline-flex items-center justify-center rounded-lg border border-green-100 p-2 text-gray-600 transition hover:bg-green-50 hover:text-primary-600 md:hidden"
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        :aria-expanded="mobileMenuOpen"
+                        aria-label="Abrir menú de navegación"
+                    >
+                        <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div v-if="mobileMenuOpen" class="border-t border-green-100 pb-4 pt-3 md:hidden">
+                    <nav class="flex flex-col gap-3">
+                        <Link
+                            v-if="canLogin && !authenticatedUser"
+                            :href="route('login')"
+                            class="text-gray-600 hover:text-primary-600 transition"
+                            @click="mobileMenuOpen = false"
+                        >
+                            Iniciar sesión
+                        </Link>
+                        <Link
+                            v-if="canRegister && !authenticatedUser"
+                            :href="route('register')"
+                            class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition text-center"
+                            @click="mobileMenuOpen = false"
+                        >
+                            Registrarse
+                        </Link>
+                        <Link
+                            v-if="authenticatedUser"
+                            :href="route('dashboard.slug', { slug: authenticatedUser.slug })"
+                            class="text-gray-600 hover:text-primary-600 transition"
+                            @click="mobileMenuOpen = false"
+                        >
                             Mi Panel
+                        </Link>
+                        <Link
+                            v-if="authenticatedUser"
+                            :href="route('profile.edit')"
+                            class="text-gray-600 hover:text-primary-600 transition"
+                            @click="mobileMenuOpen = false"
+                        >
+                            Editar perfil
+                        </Link>
+                        <Link
+                            v-if="authenticatedUser"
+                            :href="route('logout')"
+                            method="post"
+                            as="button"
+                            class="text-left text-gray-600 hover:text-primary-600 transition"
+                            @click="mobileMenuOpen = false"
+                        >
+                            Cerrar sesión
                         </Link>
                     </nav>
                 </div>
@@ -43,10 +126,10 @@ defineProps({
 
         <!-- Hero Section -->
         <section class="py-20 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto text-center bg-white border border-white shadow-md rounded-lg py-4">
+            <div class="max-w-7xl mx-auto text-center bg-white border border-white shadow-md rounded-lg p-4">
                 <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
                     Apoya a tus creadores favoritos
-                    <span class="block text-primary-600">sin que te pidan "po"</span>
+                    <span class="block text-primary-600">Date una Luca po'</span>
                 </h1>
                 <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                     DateLuca es la plataforma chilena para apoyar a artistas, youtubers, programadores y creadores de contenido.

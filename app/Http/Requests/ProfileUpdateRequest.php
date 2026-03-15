@@ -25,6 +25,8 @@ class ProfileUpdateRequest extends FormRequest
                 'alpha_dash',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+                'profile_image' => ['nullable', 'url', 'max:2048'],
+                'bio' => ['nullable', 'string', 'max:1000'],
             'email' => [
                 'required',
                 'string',

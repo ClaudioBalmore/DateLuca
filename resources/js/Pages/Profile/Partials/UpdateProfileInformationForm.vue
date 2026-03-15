@@ -19,6 +19,8 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     slug: user.slug ?? '',
+    profile_image: user.profile_image ?? '',
+    bio: user.bio ?? '',
     email: user.email,
 });
 </script>
@@ -68,7 +70,7 @@ const form = useForm({
                 />
 
                 <p class="mt-1 text-xs text-gray-500">
-                    Tu perfil estará disponible en: <span class="font-semibold">http://localhost/@{{ form.slug || 'tu-nickname' }}</span>
+                    Tu perfil estará disponible en: <span class="font-semibold">http://dateluca.cl/@{{ form.slug || 'tu-nickname' }}</span>
                 </p>
 
                 <InputError class="mt-2" :message="form.errors.slug" />
@@ -87,6 +89,36 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div>
+                <InputLabel for="profile_image" value="URL de foto de perfil" />
+
+                <TextInput
+                    id="profile_image"
+                    type="url"
+                    class="mt-1 block w-full"
+                    v-model="form.profile_image"
+                    autocomplete="url"
+                    placeholder="https://ejemplo.com/mi-foto.jpg"
+                />
+
+                <InputError class="mt-2" :message="form.errors.profile_image" />
+            </div>
+
+            <div>
+                <InputLabel for="bio" value="Descripción" />
+
+                <textarea
+                    id="bio"
+                    v-model="form.bio"
+                    rows="4"
+                    maxlength="1000"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    placeholder="Cuéntale a la comunidad quién eres y qué haces..."
+                />
+
+                <InputError class="mt-2" :message="form.errors.bio" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
