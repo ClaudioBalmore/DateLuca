@@ -7,6 +7,16 @@ defineProps({
 });
 
 defineEmits(['open-links']);
+
+const handleImageError = (event) => {
+    const img = event.target;
+
+    if (!img || img.src?.endsWith('/logo.png')) {
+        return;
+    }
+
+    img.src = '/logo.png';
+};
 </script>
 
 <template>
@@ -18,6 +28,7 @@ defineEmits(['open-links']);
                 <div class="relative z-10 mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-white p-1.5 shadow-sm ring-4 ring-white sm:h-32 sm:w-32">
                     <img
                         :src="user.profile_image || '/logo.png'"
+                        @error="handleImageError"
                         alt="Foto de perfil"
                         class="h-full w-full rounded-full bg-white object-cover"
                     />

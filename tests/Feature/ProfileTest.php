@@ -61,6 +61,25 @@ class ProfileTest extends TestCase
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
+    public function test_profile_image_url_without_protocol_is_normalized(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'profile_image' => 'images.example.com/avatar.jpg',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/profile');
+
+        $this->assertSame('https://images.example.com/avatar.jpg', $user->fresh()->profile_image);
+    }
+
     public function test_user_can_delete_their_account(): void
     {
         $user = User::factory()->create();
