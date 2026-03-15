@@ -19,6 +19,7 @@ return new class extends Migration
         \Illuminate\Support\Facades\DB::statement('UPDATE users SET slug = nickname');
 
         Schema::table('users', function (Blueprint $table) {
+            $table->dropUnique('users_nickname_unique');
             $table->unique('slug');
             $table->dropColumn('nickname');
         });
@@ -37,6 +38,7 @@ return new class extends Migration
         \Illuminate\Support\Facades\DB::statement('UPDATE users SET nickname = slug');
 
         Schema::table('users', function (Blueprint $table) {
+            $table->dropUnique('users_slug_unique');
             $table->unique('nickname');
             $table->dropColumn('slug');
         });

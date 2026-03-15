@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -31,6 +32,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $slug = $this->resolveSlug($request->input('slug'), $request->input('name'));
+
+        $request->merge(['slug' => $slug]);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|alpha_dash|unique:'.User::class,
@@ -40,7 +45,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'slug' => $request->slug,
+            'slug' => $slug,
             'bio' => "Date una Luca po' 💵🐷",
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -50,6 +55,25 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard.slug', ['slug' => $user->slug], absolute: false));
+        return redirect(route('dashboard', absolute: false));
+    }
+
+    private function resolveSlug(?string $providedSlug, ?string $name): string
+    {
+        $base = Str::slug($providedSlug ?: ($name ?: 'usuario'));
+
+        if ($base === '') {
+            $base = 'usuario';
+        }
+
+        $slug = $base;
+        $counter = 1;
+
+        while (User::where('slug', $slug)->exists()) {
+            $slug = $base.'-'.$counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

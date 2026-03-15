@@ -14,8 +14,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+    $user = $request->user();
+
+    return redirect()->route('dashboard.slug', ['slug' => $user->slug]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/@{slug}', function (string $slug) {
@@ -35,7 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('links', \App\Http\Controllers\LinksController::class);
+    Route::post('/links', [\App\Http\Controllers\LinksController::class, 'store'])->name('links.store');
+    Route::put('/links/{link}', [\App\Http\Controllers\LinksController::class, 'update'])->name('links.update');
+    Route::delete('/links/{link}', [\App\Http\Controllers\LinksController::class, 'destroy'])->name('links.destroy');
 
     Route::resource('donations', \App\Http\Controllers\DonationsController::class);
 });

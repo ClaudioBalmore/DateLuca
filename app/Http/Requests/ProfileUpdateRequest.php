@@ -19,7 +19,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => [
-                'required',
+                'sometimes',
                 'string',
                 'max:255',
                 'alpha_dash',
