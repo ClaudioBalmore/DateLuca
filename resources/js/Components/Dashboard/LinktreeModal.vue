@@ -1,4 +1,6 @@
 <script setup>
+import Modal from '@/Components/Modal.vue';
+
 defineProps({
     show: {
         type: Boolean,
@@ -45,12 +47,8 @@ const emit = defineEmits([
 </script>
 
 <template>
-    <div
-        v-if="show"
-        class="fixed inset-0 z-[60] flex items-center justify-center bg-gray-900/60 p-4"
-        @click.self="emit('close')"
-    >
-        <div class="max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
+    <Modal :show="show" max-width="2xl" :center-desktop="true" @close="emit('close')">
+        <div class="max-h-[85vh] overflow-y-auto p-6">
             <div class="mb-4 flex items-center justify-between">
                 <h3 class="text-lg font-bold text-gray-900">
                     Links de @{{ user.slug }}
@@ -230,5 +228,5 @@ const emit = defineEmits([
                 </article>
             </div>
         </div>
-    </div>
+    </Modal>
 </template>

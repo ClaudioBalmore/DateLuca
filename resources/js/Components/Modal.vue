@@ -14,6 +14,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    centerDesktop: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const emit = defineEmits(['close']);
@@ -72,6 +76,22 @@ const maxWidthClass = computed(() => {
         '2xl': 'sm:max-w-2xl',
     }[props.maxWidth];
 });
+
+const containerClass = computed(() => {
+    if (!props.centerDesktop) {
+        return '';
+    }
+
+    return 'sm:flex sm:items-center sm:justify-center';
+});
+
+const panelSpacingClass = computed(() => {
+    if (!props.centerDesktop) {
+        return 'mb-6';
+    }
+
+    return 'mb-6 sm:mb-0';
+});
 </script>
 
 <template>
@@ -81,6 +101,7 @@ const maxWidthClass = computed(() => {
     >
         <div
             class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0"
+            :class="containerClass"
             scroll-region
         >
             <Transition
@@ -112,8 +133,8 @@ const maxWidthClass = computed(() => {
             >
                 <div
                     v-show="show"
-                    class="mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
-                    :class="maxWidthClass"
+                    class="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
+                    :class="[panelSpacingClass, maxWidthClass]"
                 >
                     <slot v-if="showSlot" />
                 </div>

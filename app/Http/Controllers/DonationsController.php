@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Donation;
+use App\Http\Requests\StorePublicDonationRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DonationsController extends Controller
 {
+    private const CLP_PER_LUCA = 1000;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $user = $this->authUser();
+
         return Inertia::render('Donations/Index', [
-            'donations' => Auth::user()->donations()->orderBy('donation_date', 'desc')->get(),
+            'donations' => $user->donations()->orderBy('donation_date', 'desc')->get(),
         ]);
     }
 
@@ -32,6 +38,8 @@ class DonationsController extends Controller
      */
     public function store(Request $request)
     {
+        $user = $this->authUser();
+
         $request->validate([
             'donor_name' => 'required|string|max:255',
             'message' => 'nullable|string|max:100',
@@ -39,7 +47,7 @@ class DonationsController extends Controller
             'amount' => 'required|numeric|min:0',
         ]);
 
-        Auth::user()->donations()->create($request->only([
+        $user->donations()->create($request->only([
             'donor_name',
             'message',
             'donation_date',
@@ -47,6 +55,35 @@ class DonationsController extends Controller
         ]));
 
         return redirect()->route('donations.index');
+    }
+
+    /**
+     * Store a donation from a public profile page.
+     */
+    public function storeFromPublicProfile(StorePublicDonationRequest $request, string $slug): RedirectResponse
+    {
+        $profileOwner = User::where('slug', $slug)->firstOrFail();
+
+        if ($request->user()?->id === $profileOwner->id) {
+            return back()->withErrors([
+                'lucas' => 'No puedes donarte a ti mismo desde tu perfil.',
+            ]);
+        }
+
+        $lucas = (int) $request->integer('lucas');
+        $donorName = $request->user()?->name ?? trim((string) $request->input('donor_name'));
+        $message = trim((string) $request->input('message'));
+
+        $profileOwner->donations()->create([
+            'donor_name' => $donorName,
+            'message' => $message === '' ? null : $message,
+            'donation_date' => now()->toDateString(),
+            'amount' => $lucas * self::CLP_PER_LUCA,
+        ]);
+
+        return redirect()
+            ->route('dashboard.slug', ['slug' => $profileOwner->slug])
+            ->with('status', 'donation-success');
     }
 
     /**
@@ -79,5 +116,16 @@ class DonationsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    private function authUser(): User
+    {
+        $user = Auth::user();
+
+        if (! $user instanceof User) {
+            abort(403);
+        }
+
+        return $user;
     }
 }

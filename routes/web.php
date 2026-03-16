@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DonationsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,12 +26,15 @@ Route::get('/@{slug}', function (string $slug) {
 
     return Inertia::render('Dashboard', [
         'user' => $user,
-        'links' => $user->links,
-        'donations' => $user->donations,
+        'links' => $user->links()->latest()->get(),
+        'donations' => $user->donations()->orderByDesc('created_at')->get(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
     ]);
 })->name('dashboard.slug');
+
+Route::post('/@{slug}/donations', [DonationsController::class, 'storeFromPublicProfile'])
+    ->name('donations.public.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/links/{link}', [\App\Http\Controllers\LinksController::class, 'update'])->name('links.update');
     Route::delete('/links/{link}', [\App\Http\Controllers\LinksController::class, 'destroy'])->name('links.destroy');
 
-    Route::resource('donations', \App\Http\Controllers\DonationsController::class);
+    Route::resource('donations', DonationsController::class);
 });
 
 require __DIR__.'/auth.php';

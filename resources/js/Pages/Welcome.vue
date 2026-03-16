@@ -12,9 +12,13 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
         <!-- Hero Section -->
         <section class="py-20 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center bg-white border border-white shadow-md rounded-lg p-4">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                    Apoya a tus creadores favoritos
-                    <span class="block text-primary-600">Date una Luca po'</span>
+                <h1 class="mb-6">
+                    <span class="block text-3xl md:text-5xl font-bold text-gray-900">
+                        Apoya a tus creadores favoritos
+                    </span>
+                    <span class="block text-4xl md:text-6xl font-bold text-primary-600">
+                        Date una Luca po'
+                    </span>
                 </h1>
                 <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                     DateLuca es la plataforma chilena para apoyar a artistas, youtubers, programadores y creadores de contenido.

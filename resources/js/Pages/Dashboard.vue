@@ -2,6 +2,7 @@
 import DonationsPanel from '@/Components/Dashboard/DonationsPanel.vue';
 import LinktreeModal from '@/Components/Dashboard/LinktreeModal.vue';
 import ProfileSidebar from '@/Components/Dashboard/ProfileSidebar.vue';
+import DonateLucasModal from '@/Components/Donations/DonateLucasModal.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -23,7 +24,9 @@ const props = defineProps({
 
 const page = usePage();
 const isOwner = computed(() => page.props.auth?.user?.id === props.user?.id);
+const authenticatedUser = computed(() => page.props.auth?.user ?? null);
 const showLinktreeModal = ref(false);
+const showDonateModal = ref(false);
 const editingLinkId = ref(null);
 
 const newLinkForm = useForm({
@@ -48,11 +51,19 @@ const openLinktreeModal = () => {
     showLinktreeModal.value = true;
 };
 
+const openDonateModal = () => {
+    showDonateModal.value = true;
+};
+
 const closeLinktreeModal = () => {
     showLinktreeModal.value = false;
     editingLinkId.value = null;
     editLinkForm.reset();
     editLinkForm.clearErrors();
+};
+
+const closeDonateModal = () => {
+    showDonateModal.value = false;
 };
 
 const createLink = () => {
@@ -121,8 +132,12 @@ const removeLink = (linkId) => {
                         />
                     </aside>
 
-                    <section class="lg:col-span-2">
-                        <DonationsPanel :donations="donations" />
+                    <section class="space-y-4 lg:col-span-2">
+                        <DonationsPanel
+                            :donations="donations"
+                            :can-donate="!isOwner"
+                            @open-donate="openDonateModal"
+                        />
                     </section>
                 </div>
             </div>
@@ -143,6 +158,15 @@ const removeLink = (linkId) => {
             @cancel-edit-link="cancelEditLink"
             @update-link="updateLink"
             @remove-link="removeLink"
+        />
+
+        <DonateLucasModal
+            :show="showDonateModal"
+            :profile-user="user"
+            :is-authenticated="Boolean(authenticatedUser)"
+            :authenticated-user="authenticatedUser"
+            :is-owner="isOwner"
+            @close="closeDonateModal"
         />
     </PublicLayout>
 </template>
