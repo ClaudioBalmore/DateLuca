@@ -13,7 +13,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
         <section class="py-20 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center bg-white border border-white shadow-md rounded-lg p-4">
                 <h1 class="mb-6">
-                    <span class="block text-3xl md:text-5xl font-bold text-gray-900">
+                    <span class="block text-2xl md:text-5xl font-bold text-gray-900">
                         Apoya a tus creadores favoritos
                     </span>
                     <span class="block text-4xl md:text-6xl font-bold text-primary-600">
@@ -41,7 +41,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">¿Qué es DateLuca?</h2>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Imagina Ko-fi, pero con más terremoto, cueca y "po" al final de cada oración.
+                        Imagina Ko-fi, pero con más terremoto, cueca y "po'" al final de cada oración.
                         Una plataforma 100% chilena para que apoyes a tus ídolos sin complicaciones.
                     </p>
                 </div>
@@ -51,7 +51,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                             <span class="text-3xl">👥</span>
                         </div>
                         <h3 class="text-xl font-semibold mb-2">Para Creadores</h3>
-                        <p class="text-gray-600">Crea tu perfil @tu-nickname, comparte tu bio y recibe apoyos directos de tu comunidad.</p>
+                        <p class="text-gray-600">Crea tu perfil @tu-nickname, comparte tu bio y recibe Lucas directos de tu comunidad.</p>
                     </div>
                     <div class="text-center">
                         <div class="bg-primary-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -96,7 +96,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                     <div class="text-center">
                         <div class="bg-white rounded-lg p-6 shadow-md">
                             <div class="text-4xl font-bold text-primary-600 mb-4">3</div>
-                            <h3 class="text-xl font-semibold mb-2">Recibe apoyos</h3>
+                            <h3 class="text-xl font-semibold mb-2">Recibe Lucas</h3>
                             <p class="text-gray-600">Comparte tu @nickname y recibe donaciones directas. ¡Sin intermediarios ni terremotos financieros!</p>
                         </div>
                     </div>
@@ -118,7 +118,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                         </div>
                         <h3 class="text-xl font-semibold mb-2">@LaArtistaDelSur</h3>
                         <p class="text-gray-600 mb-4">"Pinto cuadros que hacen llorar a los terremotos. Apoya mi arte chileno."</p>
-                        <div class="text-primary-600 font-semibold">Recibió 150 apoyos este mes</div>
+                        <div class="text-primary-600 font-semibold">Recibió 150 Lucas este mes</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg p-6 text-center">
                         <div class="w-20 h-20 bg-primary-200 rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -126,7 +126,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                         </div>
                         <h3 class="text-xl font-semibold mb-2">@CantorDeCuecas</h3>
                         <p class="text-gray-600 mb-4">"Canto cuecas que hacen bailar hasta a los pingüinos. ¡Apoya la música nacional!"</p>
-                        <div class="text-primary-600 font-semibold">Recibió 89 apoyos este mes</div>
+                        <div class="text-primary-600 font-semibold">Recibió 89 Lucas este mes</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg p-6 text-center">
                         <div class="w-20 h-20 bg-primary-200 rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -134,7 +134,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
                         </div>
                         <h3 class="text-xl font-semibold mb-2">@ProgramadorPo</h3>
                         <p class="text-gray-600 mb-4">"Codeo apps que sobreviven a los terremotos. Apoya mi café digital."</p>
-                        <div class="text-primary-600 font-semibold">Recibió 234 apoyos este mes</div>
+                        <div class="text-primary-600 font-semibold">Recibió 234 Lucas este mes</div>
                     </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@ import PublicLayout from '@/Layouts/PublicLayout.vue';
         <!-- CTA Final -->
         <section class="py-16 bg-primary-600 text-white">
             <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold mb-4">¿Listo para recibir apoyos?</h2>
+                <h2 class="text-3xl font-bold mb-4">¿Listo para recibir Lucas?</h2>
                 <p class="text-xl mb-8">Únete a la comunidad chilena de creadores. Es gratis, es fácil y tiene humor.</p>
                 <Link :href="route('register')" class="bg-white text-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition">
                     Crear mi perfil gratis
