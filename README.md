@@ -136,4 +136,4 @@ npm run dev
 ## Entregables
 
 - Repositorio: https://github.com/ClaudioBalmore/DateLuca
-- Video demo en YouTube: _(agregar URL al momento de enviar)_
+- Video demo en YouTube: Solicitar a cnunezcerda@gmail.com
