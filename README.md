@@ -135,5 +135,5 @@ npm run dev
 
 ## Entregables
 
+- Desplegado en: https://dateluca.up.railway.app/
 - Repositorio: https://github.com/ClaudioBalmore/DateLuca
-- Video demo en YouTube: Solicitar a cnunezcerda@gmail.com
